@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_term_project" default="compile.module.term_project">
+  <dirname property="module.term_project.basedir" file="${ant.file.module_term_project}"/>
+  
+  <property name="module.jdk.home.term_project" value=""/>
+  <property name="module.jdk.bin.term_project" value=""/>
+  <property name="module.jdk.classpath.term_project" value=""/>
+  
+  <property name="compiler.args.term_project" value="-encoding UTF-8 -source 13 -target 13 ${compiler.args}"/>
+  
+  <property name="term_project.output.dir" value="${module.term_project.basedir}/../out/production/term_project"/>
+  <property name="term_project.testoutput.dir" value="${module.term_project.basedir}/../out/test/term_project"/>
+  
+  <path id="term_project.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="term_project.module.production.classpath">
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+  </path>
+  
+  <path id="term_project.runtime.production.module.classpath">
+    <pathelement location="${term_project.output.dir}"/>
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+  </path>
+  
+  <path id="term_project.module.classpath">
+    <pathelement location="${term_project.output.dir}"/>
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+  </path>
+  
+  <path id="term_project.runtime.module.classpath">
+    <pathelement location="${term_project.testoutput.dir}"/>
+    <pathelement location="${term_project.output.dir}"/>
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.term_project">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.term_project">
+    <patternset refid="excluded.from.module.term_project"/>
+  </patternset>
+  
+  
+  <target name="compile.module.term_project" depends="compile.module.term_project.production,compile.module.term_project.tests" description="Compile module term_project"/>
+  
+  <target name="compile.module.term_project.production" depends="register.custom.compilers" description="Compile module term_project; production classes"/>
+  
+  <target name="compile.module.term_project.tests" depends="register.custom.compilers,compile.module.term_project.production" description="compile module term_project; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.term_project" description="cleanup module">
+    <delete dir="${term_project.output.dir}"/>
+    <delete dir="${term_project.testoutput.dir}"/>
+  </target>
+</project>
