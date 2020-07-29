@@ -75,7 +75,7 @@ class _HomeState extends State<HomeBody> {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(top:100 ),
-            child: Image.asset('assets/images/logo_fff.png', height: 150,),
+            child: Image.asset('assets/images/logo-sandy.png', height: 150,),
           ),
           Container(
             padding: EdgeInsets.only(left: 10 , right: 10,bottom: 30),
@@ -143,7 +143,7 @@ class _HomeState extends State<HomeBody> {
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(top:30),
-              child: Image.asset('assets/images/logo_fff.png', height: 200,),
+              child: Image.asset('assets/images/logo-sandy.png', height: 200,),
             ),
             Container(
               padding: EdgeInsets.only(bottom: 5,top: 10, ),
