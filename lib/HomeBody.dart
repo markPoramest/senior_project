@@ -5,6 +5,10 @@ import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter/services.dart';
 import 'package:term_project/HomePage.dart';
+import 'dart:convert' show json;
+import 'package:http/http.dart' as http;
+import 'model/bully.dart';
+
 class HomeBody extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _HomeState();
@@ -80,7 +84,7 @@ class _HomeState extends State<HomeBody> {
           Container(
             padding: EdgeInsets.only(left: 10 , right: 10,bottom: 30),
             child: Text(
-              "MBO คือแอพพลิเคชันสำหรับตรวจสอบคำ Bully ภาษาไทยก่อนข้อความนั้นจะถูกโพสลงบน Twitter",
+              "Sandy คือแอพพลิเคชันสำหรับตรวจสอบคำ Bully ภาษาไทยก่อนข้อความนั้นจะถูกโพสลงบน Twitter",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 15,
@@ -136,6 +140,9 @@ class _HomeState extends State<HomeBody> {
   Color color2 = HexColor("a8948c");
   Color color3 = HexColor("adc965");
   Color color4 = HexColor("d74e37");
+  String name, username, avatar;
+  bool isData = false;
+
   Widget mainUI() {
     return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -179,12 +186,22 @@ class _HomeState extends State<HomeBody> {
             ButtonTheme(
               minWidth: 300.0,
               child: RaisedButton(
+
                 onPressed: () async {
+                  var Response = await http.get(
+                    "http://192.168.1.3:80/input/"+_bullywordController.text,
+                    headers: {"Accept": "application/json"},
+                  );
+                if (Response.statusCode == 200) {
+                  String responseBody = Response.body;
+                  var responseJSON = json.decode(responseBody);
+                  Bully bully = Bully.fromJson(responseJSON);
                   var response = await FlutterShareMe().shareToTwitter(
-                      msg: _bullywordController.text);
+                      msg: _bullywordController.text + bully.result0.toString());
                   if (response == 'success') {
-                   //showAlertDialog(context, 'ทวีตข้อความสำเร็จ');
+                    //showAlertDialog(context, 'ทวีตข้อความสำเร็จ');
                   }
+                }
                 },
                 color: color3,
                 textColor: Colors.white,
