@@ -8,6 +8,7 @@ import 'package:term_project/HomePage.dart';
 import 'dart:convert' show json;
 import 'package:http/http.dart' as http;
 import 'model/bully.dart';
+import 'dart:math';
 
 class HomeBody extends StatefulWidget {
   @override
@@ -189,18 +190,58 @@ class _HomeState extends State<HomeBody> {
 
                 onPressed: () async {
                   var Response = await http.get(
-                    "http://192.168.1.3:80/input/"+_bullywordController.text,
+                    "http://sai.cp.su.ac.th:8002/input/"+_bullywordController.text,
                     headers: {"Accept": "application/json"},
                   );
                 if (Response.statusCode == 200) {
                   String responseBody = Response.body;
                   var responseJSON = json.decode(responseBody);
                   Bully bully = Bully.fromJson(responseJSON);
-                  var response = await FlutterShareMe().shareToTwitter(
+                  var bully_class = [bully.result0,bully.result1,bully.result2,bully.result3,bully.result4,bully.result5];
+                  if(bully_class.reduce((max))==bully.result0)
+                    {
+                     showAlertDialog(context, 'ไม่เป็นคำ Bully กด OK เพื่อ Tweet', 0);
+                    }
+                  else{
+                    List a1 = new List();
+                    int index = indexOfMax(bully_class);
+                    for(int i=1;i<bully_class.length;i++){
+                      if(bully_class[index]*(90/100) <= bully_class[i]){
+                       if(i==1){
+                         a1.add('แบ่งแยก กีดกัน (Exclusion)');
+                       }
+                       else if(i==2){
+                         a1.add('ข่มขู่ คุกคาม (Harassment)');
+                       }
+                       else if(i==3){
+                         a1.add('การแฉ เปิดโปงให้อับอาย (Revealing)');
+                       }
+                       else if(i==4){
+                         a1.add('ดูถูก เหยียดหยาม ลดทอนศักดิ์ศรี (Dissing)');
+                       }
+                       else if(i==5){
+                         a1.add('ก่อกวน (Trolling)');
+                       }
+                      }
+                    }
+                    String msg ='เป็นคำ Bully ประเภท ';
+                    for(int i=0;i<a1.length;i++)
+                      {
+                        if(i!=0){
+                          msg += 'หรือ ';
+                        }
+                         msg += a1[i];
+                      }
+                    showAlertDialog(context,msg+' กรุณาใช้คำอื่นหลีกเลี่ยง', 1);
+                  }
+                 /*var response = await FlutterShareMe().shareToTwitter(
                       msg: _bullywordController.text + bully.result0.toString());
                   if (response == 'success') {
                     //showAlertDialog(context, 'ทวีตข้อความสำเร็จ');
-                  }
+                  }*/
+                }
+                else{
+                  print('time out');
                 }
                 },
                 color: color3,
@@ -235,13 +276,19 @@ class _HomeState extends State<HomeBody> {
         );
 
   }
-  showAlertDialog(BuildContext context, String text) {
+  showAlertDialog(BuildContext context, String text , int bully) {
 
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
-      onPressed: () {
-
+      onPressed: () async{
+       if(bully==0){
+         var response = await FlutterShareMe().shareToTwitter(
+             msg: _bullywordController.text + ' #ThaiBullyDetectionApp');
+         if (response == 'success') {
+           //showAlertDialog(context, 'ทวีตข้อความสำเร็จ');
+         }
+       }
       Navigator.pop(context);},
     );
 
@@ -261,5 +308,22 @@ class _HomeState extends State<HomeBody> {
         return alert;
       },
     );
+  }
+  indexOfMax(arr) {
+    if (arr.length == 0) {
+      return -1;
+    }
+
+    var max = arr[0];
+    var maxIndex = 0;
+
+    for (var i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+        maxIndex = i;
+        max = arr[i];
+      }
+    }
+
+    return maxIndex;
   }
 }

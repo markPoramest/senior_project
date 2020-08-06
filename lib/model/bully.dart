@@ -12,12 +12,12 @@ class Bully {
 
   Bully.fromJson(Map<String, dynamic> json)
       : error = json['error'],
-        result0 = json['value 0'],
-        result1 = json['value 1'],
-        result2 = json['value 2'],
-        result3 = json['value 3'],
-        result4 = json['value 4'],
-        result5 = json['value 5'];
+        result0 = double.parse(json['value 0']),
+        result1 = double.parse(json['value 1']),
+        result2 = double.parse(json['value 2']),
+        result3 = double.parse(json['value 3']),
+        result4 = double.parse(json['value 4']),
+        result5 = double.parse(json['value 5']);
 
   Map<String, dynamic> toJson() =>
       {
