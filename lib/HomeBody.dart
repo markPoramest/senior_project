@@ -8,7 +8,7 @@ import 'package:term_project/HomePage.dart';
 import 'dart:convert' show json;
 import 'package:http/http.dart' as http;
 import 'model/bully.dart';
-import 'dart:math';
+import 'main.dart';
 
 class HomeBody extends StatefulWidget {
   @override
@@ -190,40 +190,40 @@ class _HomeState extends State<HomeBody> {
 
                 onPressed: () async {
                   var Response = await http.get(
-                    "http://sai.cp.su.ac.th:8002/input/"+_bullywordController.text,
+                    "http://sai.cp.su.ac.th:8002/api/input/"+_bullywordController.text,
                     headers: {"Accept": "application/json"},
                   );
+                  print(Response.statusCode);
                 if (Response.statusCode == 200) {
                   String responseBody = Response.body;
                   var responseJSON = json.decode(responseBody);
                   Bully bully = Bully.fromJson(responseJSON);
-                  var bully_class = [bully.result0,bully.result1,bully.result2,bully.result3,bully.result4,bully.result5];
-                  if(bully_class.reduce((max))==bully.result0)
+                  var bully_class = [bully.result1,bully.result2,bully.result3,bully.result4,bully.result5,bully.result6];
+                  for(double i in bully_class){
+                    print(i);
+                  }
+                  if(bully_class[0]>=0.5 || (bully_class[0]<0.5 && bully_class[1]>=0.5 && bully_class[2]>=0.5 && bully_class[3]>=0.5 && bully_class[4]>=0.5 && bully_class[5]>=0.5))
                     {
                      showAlertDialog(context, 'ไม่เป็นคำ Bully กด OK เพื่อ Tweet', 0);
                     }
                   else{
                     List a1 = new List();
                     int index = indexOfMax(bully_class);
-                    for(int i=1;i<bully_class.length;i++){
-                      if(bully_class[index]*(90/100) <= bully_class[i]){
-                       if(i==1){
+                       if(bully_class[1]<0.5){
                          a1.add('แบ่งแยก กีดกัน (Exclusion)');
                        }
-                       else if(i==2){
+                       if(bully_class[2]<0.5){
                          a1.add('ข่มขู่ คุกคาม (Harassment)');
                        }
-                       else if(i==3){
+                       if(bully_class[3]<0.5){
                          a1.add('การแฉ เปิดโปงให้อับอาย (Revealing)');
                        }
-                       else if(i==4){
+                       if(bully_class[4]<0.5){
                          a1.add('ดูถูก เหยียดหยาม ลดทอนศักดิ์ศรี (Dissing)');
                        }
-                       else if(i==5){
+                       if(bully_class[5]<0.5){
                          a1.add('ก่อกวน (Trolling)');
                        }
-                      }
-                    }
                     String msg ='เป็นคำ Bully ประเภท ';
                     for(int i=0;i<a1.length;i++)
                       {
@@ -327,3 +327,4 @@ class _HomeState extends State<HomeBody> {
     return maxIndex;
   }
 }
+
