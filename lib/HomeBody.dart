@@ -202,26 +202,26 @@ class _HomeState extends State<HomeBody> {
                   for(double i in bully_class){
                     print(i);
                   }
-                  if(bully_class[0]>=0.5 || (bully_class[0]<0.5 && bully_class[1]<0.5 && bully_class[2]<0.5 && bully_class[3]<0.5 && bully_class[4]<0.5 && bully_class[5]<0.5))
+                  if(bully_class[0]>=0.5 || (bully_class[0]<0.85 && bully_class[1]<0.85 && bully_class[2]<0.85 && bully_class[3]<0.85 && bully_class[4]<0.85 && bully_class[5]<0.90))
                     {
                      showAlertDialog(context, 'ไม่เป็นคำ Bully กด OK เพื่อ Tweet', 0);
                     }
                   else{
                     List a1 = new List();
                     int index = indexOfMax(bully_class);
-                       if(bully_class[1]>=0.5){
+                       if(bully_class[1]>=0.85){
                          a1.add('แบ่งแยก กีดกัน (Exclusion)');
                        }
-                       if(bully_class[2]>=0.5){
+                       if(bully_class[2]>=0.85){
                          a1.add('ข่มขู่ คุกคาม (Harassment)');
                        }
-                       if(bully_class[3]>=0.5){
+                       if(bully_class[3]>=0.85){
                          a1.add('การแฉ เปิดโปงให้อับอาย (Revealing)');
                        }
-                       if(bully_class[4]>=0.5){
+                       if(bully_class[4]>=0.85){
                          a1.add('ดูถูก เหยียดหยาม ลดทอนศักดิ์ศรี (Dissing)');
                        }
-                       if(bully_class[5]>=0.5){
+                       if(bully_class[5]>=0.90){
                          a1.add('ก่อกวน (Trolling)');
                        }
                     String msg ='เป็นคำ Bully ประเภท ';
