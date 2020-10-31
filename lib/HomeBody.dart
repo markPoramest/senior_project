@@ -208,23 +208,53 @@ class _HomeState extends State<HomeBody> {
                     }
                   else{
                     List a1 = new List();
+                    List<double> a2 = new List();
                     int index = indexOfMax(bully_class);
                        if(bully_class[1]>=0.85){
                          a1.add('แบ่งแยก กีดกัน (Exclusion)');
+                         a2.add(bully_class[1]);
                        }
                        if(bully_class[2]>=0.85){
                          a1.add('ข่มขู่ คุกคาม (Harassment)');
+                         a2.add(bully_class[2]);
                        }
                        if(bully_class[3]>=0.85){
                          a1.add('การแฉ เปิดโปงให้อับอาย (Revealing)');
+                         a2.add(bully_class[3]);
                        }
                        if(bully_class[4]>=0.85){
                          a1.add('ดูถูก เหยียดหยาม ลดทอนศักดิ์ศรี (Dissing)');
+                         a2.add(bully_class[4]);
                        }
                        if(bully_class[5]>=0.90){
                          a1.add('ก่อกวน (Trolling)');
+                         a2.add(bully_class[5]);
                        }
+                       double min=0;
                     String msg ='เป็นคำ Bully ประเภท ';
+                       if(a2.length>3){
+                          a2.sort();
+                          min = a2[0];
+                          for(int i=1;i<bully_class.length;i++){
+                            if(bully_class[i]==min){
+                                if(i==1){
+                                  a1.remove('แบ่งแยก กีดกัน (Exclusion)');
+                                }
+                                else if(i==2){
+                                  a1.remove('ข่มขู่ คุกคาม (Harassment)');
+                                }
+                                else if(i==3){
+                                  a1.remove('การแฉ เปิดโปงให้อับอาย (Revealing)');
+                                }
+                                else if(i==4){
+                                  a1.remove('ดูถูก เหยียดหยาม ลดทอนศักดิ์ศรี (Dissing)');
+                                }
+                                else if(i==5){
+                                  a1.remove('ก่อกวน (Trolling)');
+                                }
+                            }
+                          }
+                       }
                     for(int i=0;i<a1.length;i++)
                       {
                         if(i!=0){
